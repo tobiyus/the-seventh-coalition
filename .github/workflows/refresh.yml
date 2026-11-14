@@ -1,0 +1,32 @@
+name: Refresh leaderboard
+
+on:
+  schedule:
+    - cron: "23 5 * * *"   # every day at 05:23 UTC
+  workflow_dispatch:        # lets you press "Run workflow" by hand
+
+permissions:
+  contents: write
+
+concurrency:
+  group: refresh
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download the public guild roster page
+        run: |
+          curl -sS --fail -m 60 -A "Mozilla/5.0" -o "$RUNNER_TEMP/guild.html" \
+            https://armorywowforever.com/g/forever/eu/normal/the-seventh-coalition
+      - name: Update levels in the page
+        run: python3 refresh.py index.html "$RUNNER_TEMP/guild.html"
+      - name: Commit if anything changed
+        run: |
+          if git diff --quiet; then echo "No changes"; exit 0; fi
+          git config user.name "leaderboard-bot"
+          git config user.email "actions@users.noreply.github.com"
+          git commit -am "Refresh levels $(date -u +%F)"
+          git push
