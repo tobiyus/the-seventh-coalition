@@ -4,7 +4,7 @@ A pixel-art leaderboard for the guild's climb to level 60 on WoW Forever (EU, No
 
 - `index.html` is the whole page. The roster lives in the `guild-data` block inside it.
 - `refresh.py` reads the public guild roster page on armorywowforever.com and rewrites that block.
-- `.github/workflows/refresh.yml` runs the refresh once a day and commits the result.
+- `.github/workflows/refresh.yml` runs the refresh twice a day (early morning and evening, UTC) and commits the result.
 
 The pixel characters are original drawings generated from each member's race and class.
 Not affiliated with Blizzard Entertainment.
