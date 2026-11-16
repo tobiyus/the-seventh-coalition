@@ -27,7 +27,9 @@
   --horde-deep: #5e0f0c;
   --xp: #8b4fd8;           /* experience-bar purple */
   --up: #5fd35f;
-  --stink: #9bd94a;        /* the Most Sweaty cloud */
+  --stink: #9bd94a;
+  --dust: #b9b3a6;
+  --gear: #4fb3d9;        /* the Most Sweaty cloud */
   --display: "Pixelify Sans", "Courier New", monospace;
   --digits: "Press Start 2P", "Courier New", monospace;
   --body: "Alegreya Sans", "Trebuchet MS", system-ui, sans-serif;
@@ -121,6 +123,56 @@ h2 { font-size: 26px; color: var(--gold); font-weight: 600; text-shadow: 3px 3px
   @keyframes waft { from { transform: translateY(0); } to { transform: translateY(-6px); } }
   @keyframes buzz { 0% { transform: translate(0, 0); } 25% { transform: translate(12px, -9px); } 50% { transform: translate(21px, 3px); } 75% { transform: translate(9px, 12px); } 100% { transform: translate(0, 0); } }
 }
+
+/* ---------- more awards ---------- */
+h3 { font-family: var(--display); font-size: 19px; font-weight: 600; color: var(--parch); margin: 30px 0 14px; line-height: 1.15; }
+.award { font-family: var(--display); font-size: 15px; letter-spacing: .14em; text-transform: uppercase; color: var(--stink); }
+.awards { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; margin-top: 24px; }
+@media (max-width: 680px) { .awards { grid-template-columns: minmax(0, 1fr); } }
+.acard { display: flex; align-items: center; gap: 18px; padding: 16px 18px; min-width: 0; }
+.acard .pic { position: relative; width: 66px; height: 69px; flex: none; }
+.acard .pic .hero { width: 66px; height: 69px; }
+.acard .txt { min-width: 0; display: flex; flex-direction: column; gap: 3px; }
+.acard .name { font-family: var(--display); font-size: 21px; line-height: 1.15; overflow-wrap: anywhere; color: var(--muted); }
+.acard p { margin: 0; color: var(--parch); font-size: 15.5px; line-height: 1.35; }
+.acard.climb .award { color: var(--up); }
+.acard.dust .award { color: var(--dust); }
+.acard.dust .hero { filter: grayscale(.75) brightness(.8); }
+.acard .arrow { position: absolute; right: -8px; top: -4px; width: 21px; height: 24px; }
+.acard .web { position: absolute; left: -16px; top: -14px; width: 36px; height: 36px; opacity: .8; }
+.acard .spider { position: absolute; right: -4px; top: -10px; width: 15px; height: 30px; }
+.firsts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; background: var(--edge-dark); }
+@media (max-width: 680px) { .firsts { grid-template-columns: minmax(0, 1fr); } }
+.first { background: var(--panel); display: flex; align-items: center; gap: 12px; padding: 14px 12px 8px; min-width: 0; }
+.first .pic { position: relative; flex: none; width: 44px; height: 46px; }
+.first .pic .spr { width: 44px; height: 46px; }
+.first:not(.won) .pic .spr { opacity: .55; }
+.first .crown { position: absolute; left: 11px; top: -11px; width: 21px !important; height: 15px !important; }
+.first .txt { min-width: 0; }
+.first .cname { font-family: var(--display); font-size: 17px; line-height: 1.15; }
+.first .line { color: var(--muted); font-size: 14.5px; line-height: 1.25; overflow-wrap: anywhere; }
+.first.won .line { color: var(--gold); }
+@media (prefers-reduced-motion: no-preference) {
+  .acard .arrow { animation: bob 1s steps(2, jump-none) infinite; }
+  .acard .spider { animation: dangle 2.4s steps(4, jump-none) infinite alternate; transform-origin: top; }
+  @keyframes dangle { from { transform: translateY(-6px); } to { transform: translateY(6px); } }
+}
+
+/* ---------- milestone feed ---------- */
+.feed { padding: 6px 0; }
+.feed .item { display: grid; grid-template-columns: 44px minmax(0, 1fr) auto; gap: 12px; align-items: center; padding: 5px 16px; }
+.feed .item + .item { border-top: 2px solid rgba(91,67,48,.45); }
+.feed .item .spr { width: 44px; height: 46px; }
+.feed .what { min-width: 0; overflow-wrap: anywhere; }
+.feed .what b { font-family: var(--display); font-weight: 600; font-size: 17px; }
+.feed .when { font-family: var(--digits); font-size: 9px; color: var(--muted); white-space: nowrap; }
+
+/* ---------- ranking modes ---------- */
+#modes { margin-bottom: 8px; }
+#bankBtn { margin-left: auto; }
+.xp.gear i { background: var(--gear); }
+.row.gearrow .lvl { font-size: 13px; color: var(--gear); }
+@media (max-width: 520px) { #bankBtn { margin-left: 0; } .row.gearrow .lvl { font-size: 11px; } }
 
 /* ---------- podium ---------- */
 .podium { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; align-items: end; }
@@ -238,8 +290,11 @@ footer a { color: var(--gold); }
   </header>
 
   <section aria-labelledby="h-sweat">
-    <div class="head"><h2 id="h-sweat">The Most Sweaty</h2><p>Awarded to the first member to hit 60</p></div>
+    <div class="head"><h2 id="h-sweat">Awards</h2><p>Bragging rights, and one wooden spoon</p></div>
     <div class="frame sweaty" id="sweaty"></div>
+    <div class="awards" id="awards"></div>
+    <h3>First of each class to 60</h3>
+    <div class="frame"><div class="firsts" id="firsts"></div></div>
   </section>
 
   <section aria-labelledby="h-pod">
@@ -261,8 +316,18 @@ footer a { color: var(--gold); }
     </div>
   </section>
 
+  <section aria-labelledby="h-feed">
+    <div class="head"><h2 id="h-feed">Recent milestones</h2><p>Every tenth level, and new arrivals</p></div>
+    <div class="frame feed" id="feed"></div>
+  </section>
+
   <section aria-labelledby="h-rank">
     <div class="head"><h2 id="h-rank">Full ranking</h2><p id="rankNote"></p></div>
+    <div class="tools" id="modes">
+      <button class="chip" type="button" id="mLevel" aria-pressed="true">Levels</button>
+      <button class="chip" type="button" id="mGear" aria-pressed="false">Gear score</button>
+      <button class="chip" type="button" id="bankBtn" aria-pressed="false">Bank alts: hidden</button>
+    </div>
     <div class="tools" id="tools">
       <input id="find" type="search" placeholder="Find a name" aria-label="Find a member by name">
     </div>
@@ -272,7 +337,7 @@ footer a { color: var(--gold); }
   <footer id="foot"></footer>
 </div>
 
-<script id="guild-data" type="application/json">{"guild":"The Seventh Coalition","region":"EU","realm":"Normal","source":"https://armorywowforever.com/g/forever/eu/normal/the-seventh-coalition","updated":"2026-11-16","members":[{"n":"Graka Wolfsbane","l":56,"r":"Orc","c":"Hunter","k":"Guild Master","g":601,"u":"Graka-Wolfsbane"},{"n":"Sharax Hextotem","l":48,"r":"Troll","c":"Shaman","k":"Rank 1","g":444,"u":"Sharax-Hextotem"},{"n":"Juliett Dathrohan","l":44,"r":"Undead","c":"Paladin","k":"Rank 1","g":339,"u":"Juliett-Dathrohan"},{"n":"Akurei Skyfury","l":50,"r":"Troll","c":"Shaman","k":"Rank 2","g":468,"u":"Akurei-Skyfury"},{"n":"Priestly Rotten","l":40,"r":"Undead","c":"Priest","k":"Rank 2","g":0,"u":"Priestly-Rotten"},{"n":"Benadryll Cabbagepatch","l":35,"r":"Troll","c":"Priest","k":"Rank 2","g":303,"u":"Benadryll-Cabbagepatch"},{"n":"Dusty Tombes","l":49,"r":"Undead","c":"Mage","k":"Rank 3","g":350,"u":"Dusty-Tombes"},{"n":"Shootfirst Asklater","l":46,"r":"Orc","c":"Hunter","k":"Rank 3","g":247,"u":"Shootfirst-Asklater"},{"n":"Zalbranium Venomstrike","l":46,"r":"Troll","c":"Rogue","k":"Rank 3","g":372,"u":"Zalbranium-Venomstrike"},{"n":"Phyllit Sanguinius","l":45,"r":"Undead","c":"Paladin","k":"Rank 3","g":334,"u":"Phyllit-Sanguinius"},{"n":"Liviel Ravenblaq","l":42,"r":"Windshaper Skyborne","c":"Hunter","k":"Rank 3","g":328,"u":"Liviel-Ravenblaq"},{"n":"Leg Puller","l":41,"r":"Undead","c":"Paladin","k":"Rank 3","g":301,"u":"Leg-Puller"},{"n":"Toastedsmorc Samstaar","l":41,"r":"Orc","c":"Warrior","k":"Rank 3","g":367,"u":"Toastedsmorc-Samstaar"},{"n":"Zyfell Moonclaw","l":41,"r":"Tauren","c":"Druid","k":"Rank 3","g":370,"u":"Zyfell-Moonclaw"},{"n":"Kojolis Steeljaw","l":39,"r":"Undead","c":"Warrior","k":"Rank 3","g":0,"u":"Kojolis-Steeljaw"},{"n":"Lazyeye Gamerz","l":39,"r":"Tauren","c":"Druid","k":"Rank 3","g":321,"u":"Lazyeye-Gamerz"},{"n":"Odsy Odd","l":38,"r":"Orc","c":"Shaman","k":"Rank 3","g":296,"u":"Odsy-Odd"},{"n":"Tau Russ","l":38,"r":"Tauren","c":"Druid","k":"Rank 3","g":346,"u":"Tau-Russ"},{"n":"Toca Farwalker","l":38,"r":"Tauren","c":"Druid","k":"Rank 3","g":299,"u":"Toca-Farwalker"},{"n":"Latmask Windbringer","l":36,"r":"Orc","c":"Shaman","k":"Rank 3","g":265,"u":"Latmask-Windbringer"},{"n":"Lookat Myhorse","l":36,"r":"Troll","c":"Hunter","k":"Rank 3","g":235,"u":"Lookat-Myhorse"},{"n":"Pea Noose","l":36,"r":"Troll","c":"Warrior","k":"Rank 3","g":334,"u":"Pea-Noose"},{"n":"Argencia Rook","l":35,"r":"Undead","c":"Paladin","k":"Rank 3","g":0,"u":"Argencia-Rook"},{"n":"Faelith Thistlepuff","l":35,"r":"Windshaper Skyborne","c":"Druid","k":"Rank 3","g":292,"u":"Faelith-Thistlepuff"},{"n":"Lambs Respite","l":35,"r":"Windshaper Skyborne","c":"Druid","k":"Rank 3","g":0,"u":"Lambs-Respite"},{"n":"Yazira Embertusk","l":35,"r":"Troll","c":"Warlock","k":"Rank 3","g":329,"u":"Yazira-Embertusk"},{"n":"Qbix Monster","l":33,"r":"Windshaper Skyborne","c":"Shaman","k":"Rank 3","g":0,"u":"Qbix-Monster"},{"n":"Smyger Somfan","l":32,"r":"Undead","c":"Rogue","k":"Rank 3","g":0,"u":"Smyger-Somfan"},{"n":"Dajova Pardonia","l":31,"r":"Orc","c":"Shaman","k":"Rank 3","g":0,"u":"Dajova-Pardonia"},{"n":"Torben Torped","l":31,"r":"Orc","c":"Hunter","k":"Rank 3","g":0,"u":"Torben-Torped"},{"n":"Vaelgrim Ironhorn","l":31,"r":"Tauren","c":"Warrior","k":"Rank 3","g":0,"u":"Vaelgrim-Ironhorn"},{"n":"Combat Koala","l":30,"r":"Undead","c":"Warrior","k":"Rank 3","g":176,"u":"Combat-Koala"},{"n":"Urzakar Felfist","l":30,"r":"Orc","c":"Warlock","k":"Rank 3","g":268,"u":"Urzakar-Felfist"},{"n":"Darkwing Eden","l":29,"r":"Tauren","c":"Warrior","k":"Rank 3","g":174,"u":"Darkwing-Eden"},{"n":"Tombias Drainmoor","l":28,"r":"Undead","c":"Warlock","k":"Rank 3","g":183,"u":"Tombias-Drainmoor"},{"n":"Kuudyr Thunderhorn","l":25,"r":"Tauren","c":"Warrior","k":"Rank 3","g":0,"u":"Kuudyr-Thunderhorn"},{"n":"Pew Nanny","l":25,"r":"Troll","c":"Mage","k":"Rank 3","g":0,"u":"Pew-Nanny"},{"n":"Shiz Whm","l":25,"r":"Troll","c":"Priest","k":"Rank 3","g":0,"u":"Shiz-Whm"},{"n":"Xcaliber Spintowin","l":25,"r":"Orc","c":"Warrior","k":"Rank 3","g":0,"u":"Xcaliber-Spintowin"},{"n":"Noko Oko","l":24,"r":"Tauren","c":"Warrior","k":"Rank 3","g":0,"u":"Noko-Oko"},{"n":"Mygler Denstore","l":23,"r":"Orc","c":"Hunter","k":"Rank 3","g":0,"u":"Mygler-Denstore"},{"n":"Smyg Doris","l":23,"r":"Undead","c":"Rogue","k":"Rank 3","g":0,"u":"Smyg-Doris"},{"n":"Babs Aardman","l":22,"r":"Tauren","c":"Druid","k":"Rank 3","g":0,"u":"Babs-Aardman"},{"n":"Humerus Hubris","l":22,"r":"Undead","c":"Paladin","k":"Rank 3","g":0,"u":"Humerus-Hubris"},{"n":"Serloin Steak","l":21,"r":"Tauren","c":"Warrior","k":"Rank 3","g":130,"u":"Serloin-Steak"},{"n":"Terran Dargate","l":20,"r":"Windshaper Skyborne","c":"Hunter","k":"Rank 3","g":0,"u":"Terran-Dargate"},{"n":"Yona Stormbreeze","l":20,"r":"Windshaper Skyborne","c":"Druid","k":"Rank 3","g":0,"u":"Yona-Stormbreeze"},{"n":"Nate Daybreaker","l":19,"r":"Undead","c":"Paladin","k":"Rank 3","g":0,"u":"Nate-Daybreaker"},{"n":"Kfc Zingerburger","l":18,"r":"Undead","c":"Mage","k":"Rank 3","g":0,"u":"Kfc-Zingerburger"},{"n":"Moo Drooid","l":17,"r":"Tauren","c":"Druid","k":"Rank 3","g":0,"u":"Moo-Drooid"},{"n":"Vodal Solosar","l":17,"r":"Windshaper Skyborne","c":"Hunter","k":"Rank 3","g":0,"u":"Vodal-Solosar"},{"n":"Latmask Spellmaster","l":15,"r":"Undead","c":"Mage","k":"Rank 3","g":0,"u":"Latmask-Spellmaster"},{"n":"Quo Westbrook","l":15,"r":"Windshaper Skyborne","c":"Druid","k":"Rank 3","g":0,"u":"Quo-Westbrook"},{"n":"Starseeker Luna","l":15,"r":"Troll","c":"Warlock","k":"Rank 3","g":0,"u":"Starseeker-Luna"},{"n":"Hagrid Hollowbone","l":14,"r":"Undead","c":"Paladin","k":"Rank 3","g":0,"u":"Hagrid-Hollowbone"},{"n":"Skyla Aetherbloom","l":14,"r":"Windshaper Skyborne","c":"Druid","k":"Rank 3","g":0,"u":"Skyla-Aetherbloom"},{"n":"Malakor Lucis","l":13,"r":"Undead","c":"Paladin","k":"Rank 3","g":0,"u":"Malakor-Lucis"},{"n":"Hoof Mcdoof","l":11,"r":"Tauren","c":"Druid","k":"Rank 3","g":0,"u":"Hoof-Mcdoof"},{"n":"Kindreds Mark","l":11,"r":"Orc","c":"Hunter","k":"Rank 3","g":0,"u":"Kindreds-Mark"},{"n":"Turak Plainswalker","l":10,"r":"Tauren","c":"Druid","k":"Rank 3","g":0,"u":"Turak-Plainswalker"},{"n":"Euthy Longbone","l":7,"r":"Undead","c":"Paladin","k":"Rank 3","g":0,"u":"Euthy-Longbone"},{"n":"Albert Natestein","l":6,"r":"Undead","c":"Mage","k":"Rank 3","g":0,"u":"Albert-Natestein"},{"n":"Fani Flap","l":1,"r":"Tauren","c":"Druid","k":"Rank 3","g":0,"u":"Fani-Flap"},{"n":"Skull Duggery","l":1,"r":"Orc","c":"Rogue","k":"Rank 3","g":0,"u":"Skull-Duggery"},{"n":"Bendylock Wardmylane","l":17,"r":"Undead","c":"Warlock","k":"Rank 4","g":0,"u":"Bendylock-Wardmylane"},{"n":"Moorpheus Samstaar","l":16,"r":"Tauren","c":"Druid","k":"Rank 4","g":0,"u":"Moorpheus-Samstaar"},{"n":"Tapani Kansalainen","l":13,"r":"Orc","c":"Hunter","k":"Rank 4","g":0,"u":"Tapani-Kansalainen"},{"n":"Airie Shulo","l":12,"r":"Troll","c":"Hunter","k":"Rank 4","g":0,"u":"Airie-Shulo"},{"n":"Kongo Monstr","l":12,"r":"Tauren","c":"Druid","k":"Rank 4","g":0,"u":"Kongo-Monstr"},{"n":"Akurei Dawnbringer","l":8,"r":"Undead","c":"Paladin","k":"Rank 4","g":0,"u":"Akurei-Dawnbringer"},{"n":"Timi Dathrohan","l":6,"r":"Troll","c":"Mage","k":"Rank 4","g":0,"u":"Timi-Dathrohan"},{"n":"Swed Bänk","l":4,"r":"Orc","c":"Mage","k":"Rank 4","g":0,"u":"Swed-B%C3%A4nk"},{"n":"Moogan Treeman","l":2,"r":"Tauren","c":"Druid","k":"Rank 4","g":0,"u":"Moogan-Treeman"},{"n":"Autopsy Turveey","l":1,"r":"Undead","c":"Warlock","k":"Rank 4","g":0,"u":"Autopsy-Turveey"},{"n":"Bankof Benedryl","l":1,"r":"Tauren","c":"Warrior","k":"Rank 4","g":0,"u":"Bankof-Benedryl"},{"n":"Jess Ting","l":1,"r":"Undead","c":"Paladin","k":"Rank 4","g":0,"u":"Jess-Ting"},{"n":"Tomm Foolery","l":1,"r":"Undead","c":"Rogue","k":"Rank 4","g":0,"u":"Tomm-Foolery"},{"n":"Zyfell Bank","l":1,"r":"Undead","c":"Paladin","k":"Rank 4","g":0,"u":"Zyfell-Bank"},{"n":"Egg Eggman","l":11,"r":"Orc","c":"Hunter","k":"Rank 5","g":0,"u":"Egg-Eggman"}],"hist":{"2026-11-11":{"Akurei Skyfury":38,"Leg Puller":33,"Vaelgrim Ironhorn":18,"Skull Duggery":1,"Akurei Dawnbringer":8,"Sharax Hextotem":37,"Lazyeye Gamerz":32,"Tau Russ":32,"Dajova Pardonia":26,"Juliett Dathrohan":33,"Shootfirst Asklater":30,"Zyfell Moonclaw":34,"Tombias Drainmoor":17,"Graka Wolfsbane":47,"Dusty Tombes":30,"Benadryll Cabbagepatch":30,"Yazira Embertusk":30,"Serloin Steak":21,"Liviel Ravenblaq":29,"Zyfell Bank":1,"Phyllit Sanguinius":38,"Toastedsmorc Samstaar":33,"Kfc Zingerburger":15,"Urzakar Felfist":26,"Shiz Whm":15,"Zalbranium Venomstrike":39,"Combat Koala":25,"Bankof Benedryl":1,"Benifrill Canadasnatch":6,"Skyla Aetherbloom":12,"Lookat Myhorse":31,"Babs Aardman":18,"Torben Torped":21,"Darkwing Eden":27,"Toca Farwalker":31,"Latmask Windbringer":30,"Latmask Spellmaster":14,"Yona Stormbreeze":16,"Vodal Solosar":13,"Pea Noose":26,"Hoof Mcdoof":11,"Pew Nanny":18,"Nate Daybreaker":14,"Fani Flap":1,"Odsy Odd":28,"Hagrid Hollowbone":12,"Humerus Hubris":22,"Malakor Lucis":13,"Qbix Monster":22,"Albert Natestein":6,"Faelith Thistlepuff":19,"Quo Westbrook":15,"Kongo Monstr":9,"Lambs Respite":21,"Tapani Kansalainen":10,"Turak Plainswalker":7,"Airie Shulo":4,"Starseeker Luna":6,"Euthy Longbone":7,"Xcaliber Spintowin":12},"2026-11-14":{"Graka Wolfsbane":53,"Sharax Hextotem":44,"Juliett Dathrohan":39,"Benadryll Cabbagepatch":34,"Akurei Skyfury":46,"Phyllit Sanguinius":44,"Zalbranium Venomstrike":43,"Dusty Tombes":40,"Shootfirst Asklater":39,"Zyfell Moonclaw":39,"Toastedsmorc Samstaar":38,"Lazyeye Gamerz":37,"Leg Puller":37,"Liviel Ravenblaq":37,"Tau Russ":36,"Latmask Windbringer":35,"Lookat Myhorse":35,"Priestly Rotten":35,"Toca Farwalker":35,"Yazira Embertusk":34,"Odsy Odd":33,"Faelith Thistlepuff":32,"Dajova Pardonia":31,"Argencia Rook":30,"Pea Noose":30,"Qbix Monster":30,"Urzakar Felfist":30,"Combat Koala":29,"Lambs Respite":29,"Darkwing Eden":28,"Torben Torped":28,"Smyger Somfan":27,"Vaelgrim Ironhorn":26,"Tombias Drainmoor":25,"Xcaliber Spintowin":25,"Shiz Whm":24,"Noko Oko":23,"Smyg Doris":23,"Humerus Hubris":22,"Babs Aardman":21,"Serloin Steak":21,"Pew Nanny":20,"Terran Dargate":20,"Yona Stormbreeze":19,"Mygler Denstore":18,"Kfc Zingerburger":17,"Vodal Solosar":16,"Nate Daybreaker":15,"Quo Westbrook":15,"Hagrid Hollowbone":13,"Malakor Lucis":13,"Skyla Aetherbloom":12,"Hoof Mcdoof":11,"Starseeker Luna":11,"Kindreds Mark":9,"Euthy Longbone":7,"Albert Natestein":6,"Fani Flap":1,"Skull Duggery":1,"Bendylock Wardmylane":16,"Moorpheus Samstaar":16,"Tapani Kansalainen":13,"Airie Shulo":12,"Akurei Dawnbringer":8,"Timi Dathrohan":5,"Autopsy Turveey":1,"Bankof Benedryl":1,"Jess Ting":1,"Zyfell Bank":1,"Kuudyr Thunderhorn":22,"Latmask Spellmaster":15,"Kongo Monstr":12,"Turak Plainswalker":10,"Tomm Foolery":1},"2026-11-15":{"Graka Wolfsbane":54,"Sharax Hextotem":45,"Juliett Dathrohan":39,"Benadryll Cabbagepatch":34,"Akurei Skyfury":47,"Phyllit Sanguinius":45,"Zalbranium Venomstrike":44,"Dusty Tombes":43,"Shootfirst Asklater":41,"Zyfell Moonclaw":39,"Leg Puller":38,"Liviel Ravenblaq":38,"Toastedsmorc Samstaar":38,"Lazyeye Gamerz":37,"Priestly Rotten":37,"Toca Farwalker":37,"Latmask Windbringer":36,"Tau Russ":36,"Lookat Myhorse":35,"Odsy Odd":35,"Yazira Embertusk":34,"Faelith Thistlepuff":32,"Pea Noose":32,"Qbix Monster":32,"Argencia Rook":31,"Dajova Pardonia":31,"Lambs Respite":31,"Urzakar Felfist":30,"Combat Koala":29,"Darkwing Eden":28,"Smyger Somfan":28,"Torben Torped":28,"Vaelgrim Ironhorn":28,"Tombias Drainmoor":26,"Xcaliber Spintowin":25,"Shiz Whm":24,"Noko Oko":23,"Smyg Doris":23,"Babs Aardman":22,"Humerus Hubris":22,"Pew Nanny":21,"Serloin Steak":21,"Mygler Denstore":20,"Terran Dargate":20,"Yona Stormbreeze":19,"Kfc Zingerburger":17,"Vodal Solosar":16,"Nate Daybreaker":15,"Quo Westbrook":15,"Hagrid Hollowbone":13,"Malakor Lucis":13,"Starseeker Luna":13,"Skyla Aetherbloom":12,"Hoof Mcdoof":11,"Kindreds Mark":9,"Euthy Longbone":7,"Albert Natestein":6,"Fani Flap":1,"Skull Duggery":1,"Bendylock Wardmylane":16,"Moorpheus Samstaar":16,"Tapani Kansalainen":13,"Airie Shulo":12,"Akurei Dawnbringer":8,"Timi Dathrohan":5,"Autopsy Turveey":1,"Bankof Benedryl":1,"Jess Ting":1,"Zyfell Bank":1,"Kuudyr Thunderhorn":24,"Latmask Spellmaster":15,"Kongo Monstr":12,"Turak Plainswalker":10,"Tomm Foolery":1},"2026-11-16":{"Graka Wolfsbane":56,"Sharax Hextotem":48,"Juliett Dathrohan":44,"Akurei Skyfury":50,"Priestly Rotten":40,"Benadryll Cabbagepatch":35,"Dusty Tombes":49,"Shootfirst Asklater":46,"Zalbranium Venomstrike":46,"Phyllit Sanguinius":45,"Liviel Ravenblaq":42,"Leg Puller":41,"Toastedsmorc Samstaar":41,"Zyfell Moonclaw":41,"Kojolis Steeljaw":39,"Lazyeye Gamerz":39,"Odsy Odd":38,"Tau Russ":38,"Toca Farwalker":38,"Latmask Windbringer":36,"Lookat Myhorse":36,"Pea Noose":36,"Argencia Rook":35,"Faelith Thistlepuff":35,"Lambs Respite":35,"Yazira Embertusk":35,"Qbix Monster":33,"Smyger Somfan":32,"Dajova Pardonia":31,"Torben Torped":31,"Vaelgrim Ironhorn":31,"Combat Koala":30,"Urzakar Felfist":30,"Darkwing Eden":29,"Tombias Drainmoor":28,"Kuudyr Thunderhorn":25,"Pew Nanny":25,"Shiz Whm":25,"Xcaliber Spintowin":25,"Noko Oko":24,"Mygler Denstore":23,"Smyg Doris":23,"Babs Aardman":22,"Humerus Hubris":22,"Serloin Steak":21,"Terran Dargate":20,"Yona Stormbreeze":20,"Nate Daybreaker":19,"Kfc Zingerburger":18,"Moo Drooid":17,"Vodal Solosar":17,"Latmask Spellmaster":15,"Quo Westbrook":15,"Starseeker Luna":15,"Hagrid Hollowbone":14,"Skyla Aetherbloom":14,"Malakor Lucis":13,"Hoof Mcdoof":11,"Kindreds Mark":11,"Turak Plainswalker":10,"Euthy Longbone":7,"Albert Natestein":6,"Fani Flap":1,"Skull Duggery":1,"Bendylock Wardmylane":17,"Moorpheus Samstaar":16,"Tapani Kansalainen":13,"Airie Shulo":12,"Kongo Monstr":12,"Akurei Dawnbringer":8,"Timi Dathrohan":6,"Swed Bänk":4,"Moogan Treeman":2,"Autopsy Turveey":1,"Bankof Benedryl":1,"Jess Ting":1,"Tomm Foolery":1,"Zyfell Bank":1,"Egg Eggman":11}},"dinged":{}}</script>
+<script id="guild-data" type="application/json">{"guild":"The Seventh Coalition","region":"EU","realm":"Normal","source":"https://armorywowforever.com/g/forever/eu/normal/the-seventh-coalition","updated":"2026-11-16","members":[{"n":"Graka Wolfsbane","l":56,"r":"Orc","c":"Hunter","k":"Guild Master","g":601,"u":"Graka-Wolfsbane"},{"n":"Sharax Hextotem","l":48,"r":"Troll","c":"Shaman","k":"Rank 1","g":444,"u":"Sharax-Hextotem"},{"n":"Juliett Dathrohan","l":44,"r":"Undead","c":"Paladin","k":"Rank 1","g":339,"u":"Juliett-Dathrohan"},{"n":"Akurei Skyfury","l":50,"r":"Troll","c":"Shaman","k":"Rank 2","g":468,"u":"Akurei-Skyfury"},{"n":"Priestly Rotten","l":40,"r":"Undead","c":"Priest","k":"Rank 2","g":0,"u":"Priestly-Rotten"},{"n":"Benadryll Cabbagepatch","l":35,"r":"Troll","c":"Priest","k":"Rank 2","g":303,"u":"Benadryll-Cabbagepatch"},{"n":"Dusty Tombes","l":49,"r":"Undead","c":"Mage","k":"Rank 3","g":350,"u":"Dusty-Tombes"},{"n":"Shootfirst Asklater","l":46,"r":"Orc","c":"Hunter","k":"Rank 3","g":247,"u":"Shootfirst-Asklater"},{"n":"Zalbranium Venomstrike","l":46,"r":"Troll","c":"Rogue","k":"Rank 3","g":372,"u":"Zalbranium-Venomstrike"},{"n":"Phyllit Sanguinius","l":45,"r":"Undead","c":"Paladin","k":"Rank 3","g":334,"u":"Phyllit-Sanguinius"},{"n":"Liviel Ravenblaq","l":42,"r":"Windshaper Skyborne","c":"Hunter","k":"Rank 3","g":328,"u":"Liviel-Ravenblaq"},{"n":"Leg Puller","l":41,"r":"Undead","c":"Paladin","k":"Rank 3","g":301,"u":"Leg-Puller"},{"n":"Toastedsmorc Samstaar","l":41,"r":"Orc","c":"Warrior","k":"Rank 3","g":367,"u":"Toastedsmorc-Samstaar"},{"n":"Zyfell Moonclaw","l":41,"r":"Tauren","c":"Druid","k":"Rank 3","g":370,"u":"Zyfell-Moonclaw"},{"n":"Kojolis Steeljaw","l":39,"r":"Undead","c":"Warrior","k":"Rank 3","g":0,"u":"Kojolis-Steeljaw"},{"n":"Lazyeye Gamerz","l":39,"r":"Tauren","c":"Druid","k":"Rank 3","g":321,"u":"Lazyeye-Gamerz"},{"n":"Odsy Odd","l":38,"r":"Orc","c":"Shaman","k":"Rank 3","g":296,"u":"Odsy-Odd"},{"n":"Tau Russ","l":38,"r":"Tauren","c":"Druid","k":"Rank 3","g":346,"u":"Tau-Russ"},{"n":"Toca Farwalker","l":38,"r":"Tauren","c":"Druid","k":"Rank 3","g":299,"u":"Toca-Farwalker"},{"n":"Latmask Windbringer","l":36,"r":"Orc","c":"Shaman","k":"Rank 3","g":265,"u":"Latmask-Windbringer"},{"n":"Lookat Myhorse","l":36,"r":"Troll","c":"Hunter","k":"Rank 3","g":235,"u":"Lookat-Myhorse"},{"n":"Pea Noose","l":36,"r":"Troll","c":"Warrior","k":"Rank 3","g":334,"u":"Pea-Noose"},{"n":"Argencia Rook","l":35,"r":"Undead","c":"Paladin","k":"Rank 3","g":0,"u":"Argencia-Rook"},{"n":"Faelith Thistlepuff","l":35,"r":"Windshaper Skyborne","c":"Druid","k":"Rank 3","g":292,"u":"Faelith-Thistlepuff"},{"n":"Lambs Respite","l":35,"r":"Windshaper Skyborne","c":"Druid","k":"Rank 3","g":0,"u":"Lambs-Respite"},{"n":"Yazira Embertusk","l":35,"r":"Troll","c":"Warlock","k":"Rank 3","g":329,"u":"Yazira-Embertusk"},{"n":"Qbix Monster","l":33,"r":"Windshaper Skyborne","c":"Shaman","k":"Rank 3","g":0,"u":"Qbix-Monster"},{"n":"Smyger Somfan","l":32,"r":"Undead","c":"Rogue","k":"Rank 3","g":0,"u":"Smyger-Somfan"},{"n":"Dajova Pardonia","l":31,"r":"Orc","c":"Shaman","k":"Rank 3","g":0,"u":"Dajova-Pardonia"},{"n":"Torben Torped","l":31,"r":"Orc","c":"Hunter","k":"Rank 3","g":0,"u":"Torben-Torped"},{"n":"Vaelgrim Ironhorn","l":31,"r":"Tauren","c":"Warrior","k":"Rank 3","g":0,"u":"Vaelgrim-Ironhorn"},{"n":"Combat Koala","l":30,"r":"Undead","c":"Warrior","k":"Rank 3","g":176,"u":"Combat-Koala"},{"n":"Urzakar Felfist","l":30,"r":"Orc","c":"Warlock","k":"Rank 3","g":268,"u":"Urzakar-Felfist"},{"n":"Darkwing Eden","l":29,"r":"Tauren","c":"Warrior","k":"Rank 3","g":174,"u":"Darkwing-Eden"},{"n":"Tombias Drainmoor","l":28,"r":"Undead","c":"Warlock","k":"Rank 3","g":183,"u":"Tombias-Drainmoor"},{"n":"Kuudyr Thunderhorn","l":25,"r":"Tauren","c":"Warrior","k":"Rank 3","g":0,"u":"Kuudyr-Thunderhorn"},{"n":"Pew Nanny","l":25,"r":"Troll","c":"Mage","k":"Rank 3","g":0,"u":"Pew-Nanny"},{"n":"Shiz Whm","l":25,"r":"Troll","c":"Priest","k":"Rank 3","g":0,"u":"Shiz-Whm"},{"n":"Xcaliber Spintowin","l":25,"r":"Orc","c":"Warrior","k":"Rank 3","g":0,"u":"Xcaliber-Spintowin"},{"n":"Noko Oko","l":24,"r":"Tauren","c":"Warrior","k":"Rank 3","g":0,"u":"Noko-Oko"},{"n":"Mygler Denstore","l":23,"r":"Orc","c":"Hunter","k":"Rank 3","g":0,"u":"Mygler-Denstore"},{"n":"Smyg Doris","l":23,"r":"Undead","c":"Rogue","k":"Rank 3","g":0,"u":"Smyg-Doris"},{"n":"Babs Aardman","l":22,"r":"Tauren","c":"Druid","k":"Rank 3","g":0,"u":"Babs-Aardman"},{"n":"Humerus Hubris","l":22,"r":"Undead","c":"Paladin","k":"Rank 3","g":0,"u":"Humerus-Hubris"},{"n":"Serloin Steak","l":21,"r":"Tauren","c":"Warrior","k":"Rank 3","g":130,"u":"Serloin-Steak"},{"n":"Terran Dargate","l":20,"r":"Windshaper Skyborne","c":"Hunter","k":"Rank 3","g":0,"u":"Terran-Dargate"},{"n":"Yona Stormbreeze","l":20,"r":"Windshaper Skyborne","c":"Druid","k":"Rank 3","g":0,"u":"Yona-Stormbreeze"},{"n":"Nate Daybreaker","l":19,"r":"Undead","c":"Paladin","k":"Rank 3","g":0,"u":"Nate-Daybreaker"},{"n":"Kfc Zingerburger","l":18,"r":"Undead","c":"Mage","k":"Rank 3","g":0,"u":"Kfc-Zingerburger"},{"n":"Moo Drooid","l":17,"r":"Tauren","c":"Druid","k":"Rank 3","g":0,"u":"Moo-Drooid"},{"n":"Vodal Solosar","l":17,"r":"Windshaper Skyborne","c":"Hunter","k":"Rank 3","g":0,"u":"Vodal-Solosar"},{"n":"Latmask Spellmaster","l":15,"r":"Undead","c":"Mage","k":"Rank 3","g":0,"u":"Latmask-Spellmaster"},{"n":"Quo Westbrook","l":15,"r":"Windshaper Skyborne","c":"Druid","k":"Rank 3","g":0,"u":"Quo-Westbrook"},{"n":"Starseeker Luna","l":15,"r":"Troll","c":"Warlock","k":"Rank 3","g":0,"u":"Starseeker-Luna"},{"n":"Hagrid Hollowbone","l":14,"r":"Undead","c":"Paladin","k":"Rank 3","g":0,"u":"Hagrid-Hollowbone"},{"n":"Skyla Aetherbloom","l":14,"r":"Windshaper Skyborne","c":"Druid","k":"Rank 3","g":0,"u":"Skyla-Aetherbloom"},{"n":"Malakor Lucis","l":13,"r":"Undead","c":"Paladin","k":"Rank 3","g":0,"u":"Malakor-Lucis"},{"n":"Hoof Mcdoof","l":11,"r":"Tauren","c":"Druid","k":"Rank 3","g":0,"u":"Hoof-Mcdoof"},{"n":"Kindreds Mark","l":11,"r":"Orc","c":"Hunter","k":"Rank 3","g":0,"u":"Kindreds-Mark"},{"n":"Turak Plainswalker","l":10,"r":"Tauren","c":"Druid","k":"Rank 3","g":0,"u":"Turak-Plainswalker"},{"n":"Euthy Longbone","l":7,"r":"Undead","c":"Paladin","k":"Rank 3","g":0,"u":"Euthy-Longbone"},{"n":"Albert Natestein","l":6,"r":"Undead","c":"Mage","k":"Rank 3","g":0,"u":"Albert-Natestein"},{"n":"Fani Flap","l":1,"r":"Tauren","c":"Druid","k":"Rank 3","g":0,"u":"Fani-Flap"},{"n":"Skull Duggery","l":1,"r":"Orc","c":"Rogue","k":"Rank 3","g":0,"u":"Skull-Duggery"},{"n":"Bendylock Wardmylane","l":17,"r":"Undead","c":"Warlock","k":"Rank 4","g":0,"u":"Bendylock-Wardmylane"},{"n":"Moorpheus Samstaar","l":16,"r":"Tauren","c":"Druid","k":"Rank 4","g":0,"u":"Moorpheus-Samstaar"},{"n":"Tapani Kansalainen","l":13,"r":"Orc","c":"Hunter","k":"Rank 4","g":0,"u":"Tapani-Kansalainen"},{"n":"Airie Shulo","l":12,"r":"Troll","c":"Hunter","k":"Rank 4","g":0,"u":"Airie-Shulo"},{"n":"Kongo Monstr","l":12,"r":"Tauren","c":"Druid","k":"Rank 4","g":0,"u":"Kongo-Monstr"},{"n":"Akurei Dawnbringer","l":8,"r":"Undead","c":"Paladin","k":"Rank 4","g":0,"u":"Akurei-Dawnbringer"},{"n":"Timi Dathrohan","l":6,"r":"Troll","c":"Mage","k":"Rank 4","g":0,"u":"Timi-Dathrohan"},{"n":"Swed Bänk","l":4,"r":"Orc","c":"Mage","k":"Rank 4","g":0,"u":"Swed-B%C3%A4nk"},{"n":"Moogan Treeman","l":2,"r":"Tauren","c":"Druid","k":"Rank 4","g":0,"u":"Moogan-Treeman"},{"n":"Autopsy Turveey","l":1,"r":"Undead","c":"Warlock","k":"Rank 4","g":0,"u":"Autopsy-Turveey"},{"n":"Bankof Benedryl","l":1,"r":"Tauren","c":"Warrior","k":"Rank 4","g":0,"u":"Bankof-Benedryl"},{"n":"Jess Ting","l":1,"r":"Undead","c":"Paladin","k":"Rank 4","g":0,"u":"Jess-Ting"},{"n":"Tomm Foolery","l":1,"r":"Undead","c":"Rogue","k":"Rank 4","g":0,"u":"Tomm-Foolery"},{"n":"Zyfell Bank","l":1,"r":"Undead","c":"Paladin","k":"Rank 4","g":0,"u":"Zyfell-Bank"},{"n":"Egg Eggman","l":11,"r":"Orc","c":"Hunter","k":"Rank 5","g":0,"u":"Egg-Eggman"}],"hist":{"2026-11-14":{"Graka Wolfsbane":53,"Sharax Hextotem":44,"Juliett Dathrohan":39,"Benadryll Cabbagepatch":34,"Akurei Skyfury":46,"Phyllit Sanguinius":44,"Zalbranium Venomstrike":43,"Dusty Tombes":40,"Shootfirst Asklater":39,"Zyfell Moonclaw":39,"Toastedsmorc Samstaar":38,"Lazyeye Gamerz":37,"Leg Puller":37,"Liviel Ravenblaq":37,"Tau Russ":36,"Latmask Windbringer":35,"Lookat Myhorse":35,"Priestly Rotten":35,"Toca Farwalker":35,"Yazira Embertusk":34,"Odsy Odd":33,"Faelith Thistlepuff":32,"Dajova Pardonia":31,"Argencia Rook":30,"Pea Noose":30,"Qbix Monster":30,"Urzakar Felfist":30,"Combat Koala":29,"Lambs Respite":29,"Darkwing Eden":28,"Torben Torped":28,"Smyger Somfan":27,"Vaelgrim Ironhorn":26,"Tombias Drainmoor":25,"Xcaliber Spintowin":25,"Shiz Whm":24,"Noko Oko":23,"Smyg Doris":23,"Humerus Hubris":22,"Babs Aardman":21,"Serloin Steak":21,"Pew Nanny":20,"Terran Dargate":20,"Yona Stormbreeze":19,"Mygler Denstore":18,"Kfc Zingerburger":17,"Vodal Solosar":16,"Nate Daybreaker":15,"Quo Westbrook":15,"Hagrid Hollowbone":13,"Malakor Lucis":13,"Skyla Aetherbloom":12,"Hoof Mcdoof":11,"Starseeker Luna":11,"Kindreds Mark":9,"Euthy Longbone":7,"Albert Natestein":6,"Fani Flap":1,"Skull Duggery":1,"Bendylock Wardmylane":16,"Moorpheus Samstaar":16,"Tapani Kansalainen":13,"Airie Shulo":12,"Akurei Dawnbringer":8,"Timi Dathrohan":5,"Autopsy Turveey":1,"Bankof Benedryl":1,"Jess Ting":1,"Zyfell Bank":1,"Kuudyr Thunderhorn":22,"Latmask Spellmaster":15,"Kongo Monstr":12,"Turak Plainswalker":10,"Tomm Foolery":1},"2026-11-15":{"Graka Wolfsbane":54,"Sharax Hextotem":45,"Juliett Dathrohan":39,"Benadryll Cabbagepatch":34,"Akurei Skyfury":47,"Phyllit Sanguinius":45,"Zalbranium Venomstrike":44,"Dusty Tombes":43,"Shootfirst Asklater":41,"Zyfell Moonclaw":39,"Leg Puller":38,"Liviel Ravenblaq":38,"Toastedsmorc Samstaar":38,"Lazyeye Gamerz":37,"Priestly Rotten":37,"Toca Farwalker":37,"Latmask Windbringer":36,"Tau Russ":36,"Lookat Myhorse":35,"Odsy Odd":35,"Yazira Embertusk":34,"Faelith Thistlepuff":32,"Pea Noose":32,"Qbix Monster":32,"Argencia Rook":31,"Dajova Pardonia":31,"Lambs Respite":31,"Urzakar Felfist":30,"Combat Koala":29,"Darkwing Eden":28,"Smyger Somfan":28,"Torben Torped":28,"Vaelgrim Ironhorn":28,"Tombias Drainmoor":26,"Xcaliber Spintowin":25,"Shiz Whm":24,"Noko Oko":23,"Smyg Doris":23,"Babs Aardman":22,"Humerus Hubris":22,"Pew Nanny":21,"Serloin Steak":21,"Mygler Denstore":20,"Terran Dargate":20,"Yona Stormbreeze":19,"Kfc Zingerburger":17,"Vodal Solosar":16,"Nate Daybreaker":15,"Quo Westbrook":15,"Hagrid Hollowbone":13,"Malakor Lucis":13,"Starseeker Luna":13,"Skyla Aetherbloom":12,"Hoof Mcdoof":11,"Kindreds Mark":9,"Euthy Longbone":7,"Albert Natestein":6,"Fani Flap":1,"Skull Duggery":1,"Bendylock Wardmylane":16,"Moorpheus Samstaar":16,"Tapani Kansalainen":13,"Airie Shulo":12,"Akurei Dawnbringer":8,"Timi Dathrohan":5,"Autopsy Turveey":1,"Bankof Benedryl":1,"Jess Ting":1,"Zyfell Bank":1,"Kuudyr Thunderhorn":24,"Latmask Spellmaster":15,"Kongo Monstr":12,"Turak Plainswalker":10,"Tomm Foolery":1},"2026-11-16":{"Graka Wolfsbane":56,"Sharax Hextotem":48,"Juliett Dathrohan":44,"Akurei Skyfury":50,"Priestly Rotten":40,"Benadryll Cabbagepatch":35,"Dusty Tombes":49,"Shootfirst Asklater":46,"Zalbranium Venomstrike":46,"Phyllit Sanguinius":45,"Liviel Ravenblaq":42,"Leg Puller":41,"Toastedsmorc Samstaar":41,"Zyfell Moonclaw":41,"Kojolis Steeljaw":39,"Lazyeye Gamerz":39,"Odsy Odd":38,"Tau Russ":38,"Toca Farwalker":38,"Latmask Windbringer":36,"Lookat Myhorse":36,"Pea Noose":36,"Argencia Rook":35,"Faelith Thistlepuff":35,"Lambs Respite":35,"Yazira Embertusk":35,"Qbix Monster":33,"Smyger Somfan":32,"Dajova Pardonia":31,"Torben Torped":31,"Vaelgrim Ironhorn":31,"Combat Koala":30,"Urzakar Felfist":30,"Darkwing Eden":29,"Tombias Drainmoor":28,"Kuudyr Thunderhorn":25,"Pew Nanny":25,"Shiz Whm":25,"Xcaliber Spintowin":25,"Noko Oko":24,"Mygler Denstore":23,"Smyg Doris":23,"Babs Aardman":22,"Humerus Hubris":22,"Serloin Steak":21,"Terran Dargate":20,"Yona Stormbreeze":20,"Nate Daybreaker":19,"Kfc Zingerburger":18,"Moo Drooid":17,"Vodal Solosar":17,"Latmask Spellmaster":15,"Quo Westbrook":15,"Starseeker Luna":15,"Hagrid Hollowbone":14,"Skyla Aetherbloom":14,"Malakor Lucis":13,"Hoof Mcdoof":11,"Kindreds Mark":11,"Turak Plainswalker":10,"Euthy Longbone":7,"Albert Natestein":6,"Fani Flap":1,"Skull Duggery":1,"Bendylock Wardmylane":17,"Moorpheus Samstaar":16,"Tapani Kansalainen":13,"Airie Shulo":12,"Kongo Monstr":12,"Akurei Dawnbringer":8,"Timi Dathrohan":6,"Swed Bänk":4,"Moogan Treeman":2,"Autopsy Turveey":1,"Bankof Benedryl":1,"Jess Ting":1,"Tomm Foolery":1,"Zyfell Bank":1,"Egg Eggman":11}},"dinged":{}}</script>
 
 <script>
 (function () {
@@ -443,171 +508,304 @@ footer a { color: var(--gold); }
   });
   var FLY = pixels(5, 3, function (p) { p(0, 0, "#e9f2ff", 2, 1); p(3, 0, "#e9f2ff", 2, 1); p(1, 1, "#0c0806", 3, 2); p(3, 1, "#d23a2a"); });
 
+  /* extra pixel props */
+  var WEB = pixels(12, 12, function (p) {
+    var W = "#d8d4c8";
+    p(0, 0, W, 12, 1); p(0, 0, W, 1, 12);
+    for (var i = 1; i < 11; i++) p(i, i, W);
+    [[4, 1], [3, 3], [1, 4], [8, 1], [8, 2], [7, 4], [6, 6], [4, 7], [2, 8], [1, 8]].forEach(function (q) { p(q[0], q[1], W); });
+  });
+  var SPIDER = pixels(5, 10, function (p) {
+    p(2, 0, "#d8d4c8", 1, 6); p(1, 6, "#8d86a8", 3, 3); p(0, 6, "#8d86a8"); p(4, 6, "#8d86a8"); p(0, 8, "#8d86a8"); p(4, 8, "#8d86a8"); p(1, 7, "#d23a2a"); p(3, 7, "#d23a2a");
+  });
+  var ARROW = pixels(7, 8, function (p) {
+    var G = "#5fd35f"; p(3, 0, G); p(2, 1, G, 3, 1); p(1, 2, G, 5, 1); p(0, 3, G, 7, 1); p(2, 4, G, 3, 4);
+  });
+  var CROWN = pixels(7, 5, function (p) {
+    var G = "#ffd100"; p(0, 0, G); p(3, 0, G); p(6, 0, G); p(0, 1, G, 7, 4); p(1, 1, "#241a15"); p(2, 1, "#241a15"); p(4, 1, "#241a15"); p(5, 1, "#241a15"); p(3, 3, "#d23a2a");
+  });
+
   /* ---------------- helpers ---------------- */
   function el(tag, cls, text) { var e = document.createElement(tag); if (cls) e.className = cls; if (text != null) e.textContent = text; return e; }
   function sprImg(m) { var i = el("img", "spr"); i.src = sprite(m.r, m.c); i.alt = m.r + " " + m.c; i.width = SW; i.height = SH; return i; }
+  function prop(src, cls) { var i = el("img", "spr " + cls); i.src = src; i.alt = ""; return i; }
   function classColor(m) { return (CLASSES[m.c] || {}).color || "var(--parch)"; }
   function shortRace(r) { return r === "Windshaper Skyborne" ? "Skyborne" : r; }
-  function fmtDate(iso) {
-    var d = new Date(iso + "T12:00:00Z");
-    return isNaN(d) ? iso : d.toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric", timeZone: "UTC" });
-  }
+  function fmt(iso, opts) { var d = new Date(iso + "T12:00:00Z"); opts.timeZone = "UTC"; return isNaN(d) ? iso : d.toLocaleDateString("en-GB", opts); }
+  function fmtDate(iso) { return fmt(iso, { day: "numeric", month: "long", year: "numeric" }); }
+  function fmtShort(iso) { return fmt(iso, { day: "numeric", month: "short" }); }
+  function dayGap(a, b) { return Math.round((new Date(b) - new Date(a)) / 864e5); }
+  function names(list) { return list.length < 3 ? list.join(" and ") : list[0] + " and " + (list.length - 1) + " others"; }
+  function clear(id) { var e = document.getElementById(id); e.textContent = ""; return e; }
 
-  var members = DATA.members.slice().sort(function (a, b) { return b.l - a.l || b.g - a.g || a.n.localeCompare(b.n); });
-  members.forEach(function (m, i) { m.pos = i + 1; });
+  /* ---------------- data ---------------- */
+  // Bank alts: anything with "bank" in the name, plus any names listed here.
+  var BANK_EXTRA = [];
+  function isBank(m) { return /bank/i.test(m.n) || BANK_EXTRA.indexOf(m.n) >= 0; }
+  // The first snapshots did not cover the whole roster, so "joined" events start after them.
+  var JOINS_FROM = "2026-11-15";
+  var STALL_DAYS = 3;
 
-  // gain against the oldest snapshot from the last 7 days
-  var days = Object.keys(DATA.hist || {}).sort();
-  var today = DATA.updated, base = null;
+  var ALL = DATA.members.slice(), HIST = DATA.hist || {}, today = DATA.updated;
+  var days = Object.keys(HIST).sort(), base = null;
   if (today) {
     var lim = new Date(today + "T00:00:00Z"); lim.setUTCDate(lim.getUTCDate() - 7);
     var limIso = lim.toISOString().slice(0, 10);
     for (var di = 0; di < days.length; di++) if (days[di] >= limIso && days[di] < today) { base = days[di]; break; }
   }
-  var span = base ? Math.round((new Date(today) - new Date(base)) / 864e5) : 0;
-  members.forEach(function (m) {
-    m.gain = base && DATA.hist[base][m.n] != null ? m.l - DATA.hist[base][m.n] : null;
-  });
+  var span = base ? dayGap(base, today) : 0;
   var spanLabel = span === 1 ? "since yesterday" : "in " + span + " days";
+  ALL.forEach(function (m) {
+    m.bank = isBank(m);
+    m.gain = base && HIST[base][m.n] != null ? m.l - HIST[base][m.n] : null;
+    m.eta = null;
+    if (m.gain > 0 && m.l < CAP && span > 0) {
+      var need = Math.ceil((CAP - m.l) / (m.gain / span));
+      if (need <= 365) { var e = new Date(today + "T12:00:00Z"); e.setUTCDate(e.getUTCDate() + need); m.eta = e.toISOString().slice(0, 10); }
+    }
+    // days since the level last changed, as far back as the snapshots go
+    m.stall = 0;
+    for (var i = days.length - 1; i >= 0; i--) { var v = HIST[days[i]][m.n]; if (v == null || v !== m.l) break; m.stall = dayGap(days[i], today); }
+  });
+  var byName = {}; ALL.forEach(function (m) { byName[m.n] = m; });
+  var bankCount = ALL.filter(function (m) { return m.bank; }).length;
+
+  var dinged = DATA.dinged || {}, firstDay = null, champs = [];
+  Object.keys(dinged).forEach(function (nm) { var d = dinged[nm].d; if (!firstDay || d < firstDay) firstDay = d; });
+  if (firstDay) champs = Object.keys(dinged).filter(function (nm) { return dinged[nm].d === firstDay; })
+    .map(function (nm) { return { n: nm, r: dinged[nm].r, c: dinged[nm].c }; });
+  var sweatyNames = champs.map(function (c) { return c.n; });
+
+  // milestone feed, read from consecutive snapshots
+  var events = [];
+  for (var k = 1; k < days.length; k++) {
+    var prev = HIST[days[k - 1]], cur = HIST[days[k]];
+    Object.keys(cur).forEach(function (nm) {
+      var m = byName[nm]; if (!m || m.bank) return;
+      if (prev[nm] == null) { if (days[k] >= JOINS_FROM) events.push({ d: days[k], m: m, t: "joined the guild at level " + cur[nm], w: 0 }); return; }
+      for (var step = 10; step <= CAP; step += 10) if (prev[nm] < step && cur[nm] >= step) events.push({ d: days[k], m: m, t: step === CAP ? "reached level 60" : "passed level " + step, w: step });
+    });
+  }
+  events.sort(function (a, b) { return a.d < b.d ? 1 : a.d > b.d ? -1 : b.w - a.w; });
+
+  var showBank = false, mode = "level", active = null, members = [];
+  try { showBank = localStorage.getItem("showBank") === "1"; } catch (e) {}
 
   /* ---------------- header ---------------- */
   var upd = document.getElementById("updated");
   upd.append("Levels as of " + fmtDate(today) + " · ");
   var src = el("a", null, "armory"); src.href = DATA.source; src.target = "_blank"; src.rel = "noopener"; upd.append(src);
 
-  var n = members.length, sum = members.reduce(function (s, m) { return s + m.l; }, 0);
-  var at60 = members.filter(function (m) { return m.l >= CAP; }).length;
-  var climbers = members.filter(function (m) { return m.gain > 0; }).sort(function (a, b) { return b.gain - a.gain || b.l - a.l; });
-  var stats = [
-    [n, "Members", ""],
-    [(sum / n).toFixed(1), "Average level", ""],
-    [members[0].l, "Highest level", members[0].n],
-    at60 ? [at60, "Reached 60", ""] : (climbers.length ? ["+" + climbers[0].gain, "Top climber " + spanLabel, climbers[0].n] : [CAP - members[0].l, "Levels until the first 60", ""])
-  ];
-  var statsEl = document.getElementById("stats");
-  stats.forEach(function (s) {
-    var d = el("div", "stat"); d.append(el("div", "num", s[0]), el("div", "lab", s[1])); if (s[2]) d.append(el("div", "sub", s[2])); statsEl.append(d);
-  });
+  function renderStats() {
+    var n = members.length, sum = members.reduce(function (s, m) { return s + m.l; }, 0);
+    var at60 = members.filter(function (m) { return m.l >= CAP; }).length;
+    var hidden = showBank ? 0 : bankCount;
+    var stats = [
+      [n, "Members", hidden ? hidden + " bank alt" + (hidden > 1 ? "s" : "") + " hidden" : ""],
+      [(sum / n).toFixed(1), "Average level", ""],
+      [members[0].l, "Highest level", members[0].n],
+      at60 ? [at60, "Reached 60", ""] : [CAP - members[0].l, "Levels until the first 60", ""]
+    ];
+    var box = clear("stats");
+    stats.forEach(function (s) {
+      var d = el("div", "stat"); d.append(el("div", "num", s[0]), el("div", "lab", s[1])); if (s[2]) d.append(el("div", "sub", s[2])); box.append(d);
+    });
+  }
 
-  /* ---------------- most sweaty ---------------- */
-  var dinged = DATA.dinged || {}, firstDay = null, champs = [];
-  Object.keys(dinged).forEach(function (nm) { var d = dinged[nm].d; if (!firstDay || d < firstDay) firstDay = d; });
-  if (firstDay) champs = Object.keys(dinged).filter(function (nm) { return dinged[nm].d === firstDay; })
-    .map(function (nm) { return { n: nm, r: dinged[nm].r, c: dinged[nm].c }; });
-  var sweatyNames = champs.map(function (c) { return c.n; });
-  (function () {
-    var box = document.getElementById("sweaty"), stage = el("div", "stage"), txt = el("div", "txt");
-    var cloud = el("img", "spr cloud"); cloud.src = CLOUD; cloud.alt = ""; stage.append(cloud);
+  /* ---------------- awards ---------------- */
+  function renderAwards() {
+    // The Most Sweaty
+    var box = clear("sweaty"), stage = el("div", "stage"), txt = el("div", "txt");
+    stage.append(prop(CLOUD, "cloud"));
     if (champs.length) { var hero = sprImg(champs[0]); hero.classList.add("hero"); stage.append(hero); }
     else stage.append(el("div", "plinth"));
-    for (var i = 0; i < 4; i++) { var fly = el("img", "spr fly"); fly.src = FLY; fly.alt = ""; stage.append(fly); }
-    txt.append(el("div", "award", champs.length ? "First to 60" : "Unclaimed"));
+    for (var i = 0; i < 4; i++) stage.append(prop(FLY, "fly"));
+    txt.append(el("div", "award", "The Most Sweaty · first to 60"));
     if (champs.length) {
       var w = el("div", "winner", sweatyNames.join(" & ")); w.style.color = classColor(champs[0]);
       txt.append(w, el("p", null, (champs.length > 1 ? "Both hit 60 on the same day, " : "Hit 60 on ") + fmtDate(firstDay) + ". " + (champs.length > 1 ? "They share the cloud." : "The cloud and the flies are theirs to keep.")));
     } else {
       var lead = members[0], tied = members.filter(function (m) { return m.l === lead.l; });
-      txt.append(el("div", "winner open", "Nobody yet"));
-      txt.append(el("p", null, "The cloud is waiting. Closest: " + tied.map(function (m) { return m.n; }).join(" and ") + " at level " + lead.l + ", " + (CAP - lead.l) + " levels away."));
+      txt.append(el("div", "winner open", "Unclaimed"));
+      txt.append(el("p", null, "The cloud is waiting. Closest: " + names(tied.map(function (m) { return m.n; })) + " at level " + lead.l + ", " + (CAP - lead.l) + " levels away." + (lead.eta ? " At their current pace that is around " + fmtShort(lead.eta) + "." : "")));
     }
     box.append(stage, txt);
-  })();
+
+    // Climber of the week and Gathering dust
+    var grid = clear("awards");
+    function card(cls, label, who, title, line, props) {
+      var c = el("div", "frame acard " + cls), pic = el("div", "pic"), t = el("div", "txt");
+      if (who) { var h = sprImg(who); h.classList.add("hero"); pic.append(h); }
+      props.forEach(function (x) { pic.append(x); });
+      var nm = el("div", "name", title); if (who) nm.style.color = classColor(who);
+      t.append(el("div", "award", label), nm, el("p", null, line));
+      c.append(pic, t); grid.append(c);
+    }
+    var real = ALL.filter(function (m) { return !m.bank; });
+    var up = real.filter(function (m) { return m.gain > 0; }).sort(function (a, b) { return b.gain - a.gain || b.l - a.l; });
+    if (up.length) {
+      var best = up.filter(function (m) { return m.gain === up[0].gain; });
+      card("climb", "Climber of the week", best[0], names(best.map(function (m) { return m.n; })), "+" + up[0].gain + " levels " + spanLabel + ", now level " + best[0].l + ".", [prop(ARROW, "arrow")]);
+    } else card("climb", "Climber of the week", null, "No winner yet", "This fills in once there are a few days of levels to compare.", [prop(ARROW, "arrow")]);
+    var dusty = real.filter(function (m) { return m.l < CAP && m.stall >= STALL_DAYS; }).sort(function (a, b) { return b.stall - a.stall || b.l - a.l; });
+    if (dusty.length) {
+      var d0 = dusty[0];
+      card("dust", "Gathering dust", d0, d0.n, "Stuck on level " + d0.l + " for " + d0.stall + " days or more." + (dusty.length > 1 ? " " + (dusty.length - 1) + " others have not levelled in " + STALL_DAYS + " days either." : ""), [prop(WEB, "web"), prop(SPIDER, "spider")]);
+    } else if (!days.length || dayGap(days[0], today) < STALL_DAYS) card("dust", "Gathering dust", null, "Too early to say", "This goes to whoever has sat on the same level longest, once there are " + STALL_DAYS + " days of levels to compare.", [prop(WEB, "web"), prop(SPIDER, "spider")]);
+    else card("dust", "Gathering dust", null, "Nobody", "Everyone has levelled in the last " + STALL_DAYS + " days.", [prop(WEB, "web"), prop(SPIDER, "spider")]);
+
+    // first of each class to 60
+    var firsts = clear("firsts");
+    Object.keys(CLASSES).forEach(function (cn) {
+      var won = Object.keys(dinged).filter(function (nm) { return dinged[nm].c === cn; }).sort(function (a, b) { return dinged[a].d < dinged[b].d ? -1 : 1; });
+      var day = won.length ? dinged[won[0]].d : null;
+      won = won.filter(function (nm) { return dinged[nm].d === day; });
+      var pack = real.filter(function (m) { return m.c === cn; }).sort(function (a, b) { return b.l - a.l || b.g - a.g; });
+      if (!won.length && !pack.length) return;
+      var tile = el("div", "first" + (won.length ? " won" : "")), t = el("div", "txt");
+      var face = won.length ? { n: won[0], r: dinged[won[0]].r, c: cn } : pack[0];
+      var pic = el("div", "pic"); pic.append(sprImg(face)); if (won.length) pic.append(prop(CROWN, "crown"));
+      var cl = el("div", "cname", cn); cl.style.color = CLASSES[cn].color;
+      t.append(cl, el("div", "line", won.length ? names(won) + " · " + fmtShort(day) : "Open · " + pack[0].n + " leads at " + pack[0].l));
+      tile.append(pic, t); firsts.append(tile);
+    });
+  }
 
   /* ---------------- podium ---------------- */
-  var pod = document.getElementById("podium");
-  [1, 0, 2].forEach(function (ix) {
-    var m = members[ix]; if (!m) return;
-    var d = el("div", "frame pod" + (ix === 0 ? " first" : ""));
-    var nm = el("div", "name", m.n); nm.style.color = classColor(m);
-    var lv = el("div", "lvl", m.l); lv.append(el("small", null, " / " + CAP));
-    d.append(el("div", "place", ["1st", "2nd", "3rd"][ix]), sprImg(m), nm, el("div", "what", shortRace(m.r) + " " + m.c), lv);
-    pod.append(d);
-  });
+  function renderPodium() {
+    var pod = clear("podium");
+    [1, 0, 2].forEach(function (ix) {
+      var m = members[ix]; if (!m) return;
+      var d = el("div", "frame pod" + (ix === 0 ? " first" : ""));
+      var nm = el("div", "name", m.n); nm.style.color = classColor(m);
+      var lv = el("div", "lvl", m.l); lv.append(el("small", null, " / " + CAP));
+      d.append(el("div", "place", ["1st", "2nd", "3rd"][ix]), sprImg(m), nm, el("div", "what", shortRace(m.r) + " " + m.c), lv);
+      pod.append(d);
+    });
+  }
 
   /* ---------------- road ---------------- */
-  var COL = 30, STEP = 24, sky = document.getElementById("sky");
-  var byLvl = {}; members.forEach(function (m) { (byLvl[m.l] = byLvl[m.l] || []).push(m); });
-  var maxStack = Math.max.apply(null, Object.keys(byLvl).map(function (k) { return byLvl[k].length; }));
-  sky.style.height = (46 + (maxStack - 1) * STEP + 34) + "px";
-  for (var s = 0; s < 40; s++) { var st = el("i", "star"); st.style.left = ((s * 137) % 1790) + "px"; st.style.top = ((s * 53) % 60) + "px"; sky.append(st); }
-  for (var f = 10; f <= CAP; f += 10) { var fl = el("i", "flag" + (f === CAP ? " end" : "")); fl.style.left = ((f - 1) * COL + COL - 3) + "px"; sky.append(fl); }
-  var inspect = document.getElementById("inspect"), current = null;
-  function show(m, btn) {
-    if (current) current.classList.remove("on");
-    current = btn; btn.classList.add("on");
-    inspect.textContent = "";
-    var who = el("div", "who"); var b = el("b", null, m.n); b.style.color = classColor(m);
-    who.append(b, el("div", null, "Level " + m.l + " " + shortRace(m.r) + " " + m.c + " · #" + m.pos + " in the guild · " + (CAP - m.l > 0 ? (CAP - m.l) + " levels to go" : "made it to 60")));
-    inspect.append(sprImg(m), who);
-  }
-  Object.keys(byLvl).forEach(function (lv) {
-    byLvl[lv].forEach(function (m, i) {
-      var b = el("button", "walker"); b.type = "button";
-      b.style.left = ((m.l - 1) * COL) + "px"; b.style.bottom = (i * STEP) + "px"; b.style.zIndex = 50 - i;
-      b.setAttribute("aria-label", m.n + ", level " + m.l + " " + m.r + " " + m.c);
-      b.title = m.n + " · " + m.l;
-      b.append(sprImg(m));
-      b.addEventListener("click", function () { show(m, b); });
-      b.addEventListener("mouseenter", function () { show(m, b); });
-      b.addEventListener("focus", function () { show(m, b); });
-      sky.append(b);
+  var COL = 30, STEP = 24, placed = false;
+  function renderRoad() {
+    var sky = clear("sky"), inspect = document.getElementById("inspect"), current = null;
+    inspect.textContent = "Tap a character on the road to see who it is.";
+    var byLvl = {}; members.forEach(function (m) { (byLvl[m.l] = byLvl[m.l] || []).push(m); });
+    var maxStack = Math.max.apply(null, Object.keys(byLvl).map(function (k) { return byLvl[k].length; }));
+    sky.style.height = (46 + (maxStack - 1) * STEP + 34) + "px";
+    for (var s = 0; s < 40; s++) { var st = el("i", "star"); st.style.left = ((s * 137) % 1790) + "px"; st.style.top = ((s * 53) % 60) + "px"; sky.append(st); }
+    for (var f = 10; f <= CAP; f += 10) { var fl = el("i", "flag" + (f === CAP ? " end" : "")); fl.style.left = ((f - 1) * COL + COL - 3) + "px"; sky.append(fl); }
+    function show(m, btn) {
+      if (current) current.classList.remove("on");
+      current = btn; btn.classList.add("on");
+      inspect.textContent = "";
+      var who = el("div", "who"); var b = el("b", null, m.n); b.style.color = classColor(m);
+      who.append(b, el("div", null, "Level " + m.l + " " + shortRace(m.r) + " " + m.c + " · #" + m.pos + " in the guild · " + (CAP - m.l > 0 ? (CAP - m.l) + " levels to go" + (m.eta ? ", on pace for 60 around " + fmtShort(m.eta) : "") : "made it to 60")));
+      inspect.append(sprImg(m), who);
+    }
+    Object.keys(byLvl).forEach(function (lv) {
+      byLvl[lv].forEach(function (m, i) {
+        var b = el("button", "walker"); b.type = "button";
+        b.style.left = ((m.l - 1) * COL) + "px"; b.style.bottom = (i * STEP) + "px"; b.style.zIndex = 50 - i;
+        b.setAttribute("aria-label", m.n + ", level " + m.l + " " + m.r + " " + m.c);
+        b.title = m.n + " · " + m.l;
+        b.append(sprImg(m));
+        b.addEventListener("click", function () { show(m, b); });
+        b.addEventListener("mouseenter", function () { show(m, b); });
+        b.addEventListener("focus", function () { show(m, b); });
+        sky.append(b);
+      });
     });
-  });
-  var GROUND = ["#4f7a36", "#a88a48", "#7a6a3c", "#3f6a4a", "#8c8fa3", "#7a3a26"];
-  var ground = document.getElementById("ground");
-  GROUND.forEach(function (c) { var i = el("i"); i.style.backgroundColor = c; ground.append(i); });
-  var ticks = document.getElementById("ticks");
-  for (var t = 1; t <= CAP; t++) ticks.append(el("span", t % 10 === 0 ? "ten" : (t % 5 === 0 ? "five" : ""), t));
-  // start the view on the main pack
-  var sc = document.getElementById("roadScroll");
-  var median = members[Math.floor(n / 2)].l;
-  requestAnimationFrame(function () { sc.scrollLeft = Math.max(0, (median - 1) * COL + 24 - sc.clientWidth / 2); });
+    if (!placed) {
+      placed = true;
+      var ground = document.getElementById("ground");
+      ["#4f7a36", "#a88a48", "#7a6a3c", "#3f6a4a", "#8c8fa3", "#7a3a26"].forEach(function (c) { var i = el("i"); i.style.backgroundColor = c; ground.append(i); });
+      var ticks = document.getElementById("ticks");
+      for (var t = 1; t <= CAP; t++) ticks.append(el("span", t % 10 === 0 ? "ten" : (t % 5 === 0 ? "five" : ""), t));
+      var sc = document.getElementById("roadScroll"), median = members[Math.floor(members.length / 2)].l;
+      requestAnimationFrame(function () { sc.scrollLeft = Math.max(0, (median - 1) * COL + 24 - sc.clientWidth / 2); });
+    }
+  }
+
+  /* ---------------- milestone feed ---------------- */
+  function renderFeed() {
+    var feed = clear("feed");
+    var list = events.slice(0, 12);
+    if (!list.length) { feed.append(el("div", "empty", "No milestones yet. Every tenth level and every new member will show up here.")); return; }
+    list.forEach(function (ev) {
+      var r = el("div", "item"), t = el("div", "what"), b = el("b", null, ev.m.n); b.style.color = classColor(ev.m);
+      t.append(b, " " + ev.t);
+      r.append(sprImg(ev.m), t, el("div", "when", fmtShort(ev.d)));
+      feed.append(r);
+    });
+  }
 
   /* ---------------- ranking ---------------- */
   var board = document.getElementById("board"), tools = document.getElementById("tools"), find = document.getElementById("find");
-  var active = null;
-  var counts = {}; members.forEach(function (m) { counts[m.c] = (counts[m.c] || 0) + 1; });
-  Object.keys(counts).sort().forEach(function (cn) {
-    var b = el("button", "chip", cn); b.append(el("b", null, counts[cn])); b.type = "button"; b.setAttribute("aria-pressed", "false");
-    b.style.setProperty("--chip", (CLASSES[cn] || {}).color || "#ecdfc4");
-    b.addEventListener("click", function () {
-      active = active === cn ? null : cn;
-      tools.querySelectorAll(".chip").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b && active === cn)); });
-      render();
+  var mLevel = document.getElementById("mLevel"), mGear = document.getElementById("mGear"), bankBtn = document.getElementById("bankBtn");
+  function renderChips() {
+    tools.querySelectorAll(".chip").forEach(function (x) { x.remove(); });
+    var counts = {}; members.forEach(function (m) { counts[m.c] = (counts[m.c] || 0) + 1; });
+    if (active && !counts[active]) active = null;
+    Object.keys(counts).sort().forEach(function (cn) {
+      var b = el("button", "chip", cn); b.append(el("b", null, counts[cn])); b.type = "button"; b.setAttribute("aria-pressed", String(active === cn));
+      b.style.setProperty("--chip", (CLASSES[cn] || {}).color || "#ecdfc4");
+      b.addEventListener("click", function () { active = active === cn ? null : cn; renderChips(); renderBoard(); });
+      tools.insertBefore(b, find);
     });
-    tools.insertBefore(b, find);
-  });
-  find.addEventListener("input", render);
-  document.getElementById("rankNote").textContent = base
-    ? "Sorted by level. The green figure is levels gained " + spanLabel + "."
-    : "Sorted by level. Levels gained will appear after the next daily update.";
-
-  function render() {
+  }
+  function renderBoard() {
+    var gear = mode === "gear";
+    mLevel.setAttribute("aria-pressed", String(!gear)); mGear.setAttribute("aria-pressed", String(gear));
+    document.getElementById("rankNote").textContent = gear
+      ? "Sorted by gear score from the armory. Members with no score listed are left out."
+      : (base ? "Sorted by level. Green is levels gained " + spanLabel + ". The “60 by” dates assume that pace holds, and later levels take longer." : "Sorted by level. Levels gained will appear after the next update.");
     board.textContent = "";
     var q = find.value.trim().toLowerCase();
-    var list = members.filter(function (m) { return (!active || m.c === active) && (!q || m.n.toLowerCase().indexOf(q) >= 0); });
+    var pool = members;
+    if (gear) { pool = members.filter(function (m) { return m.g > 0; }).sort(function (a, b) { return b.g - a.g || b.l - a.l; }); }
+    var maxG = pool.length && gear ? pool[0].g : 1;
+    var rank = {}; pool.forEach(function (m, i) { rank[m.n] = i + 1; });
+    var list = pool.filter(function (m) { return (!active || m.c === active) && (!q || m.n.toLowerCase().indexOf(q) >= 0); });
     var head = el("div", "row cols");
-    head.append(el("span", null, "#"), el("span"), el("span", null, "Character"), el("span", null, "Level"), el("span", null, base ? "Gained" : ""));
+    head.append(el("span", null, "#"), el("span"), el("span", null, "Character"), el("span", null, gear ? "Gear" : "Level"), el("span", null, gear ? "Level" : (base ? "Gained" : "")));
     board.append(head);
     if (!list.length) { board.append(el("div", "empty", "No one matches that. Clear the search or class filter.")); return; }
     list.forEach(function (m) {
-      var r = el("div", "row" + (m.pos <= 3 ? " top" : ""));
+      var r = el("div", "row" + (rank[m.n] <= 3 ? " top" : "") + (gear ? " gearrow" : ""));
       var who = el("div", "who"), nm = el("div", "name"), a = el("a", null, m.n);
       a.href = "https://armorywowforever.com/c/forever/eu/normal/" + m.u; a.target = "_blank"; a.rel = "noopener";
       nm.style.color = classColor(m); nm.append(a);
       if (sweatyNames.indexOf(m.n) >= 0) nm.append(el("span", "badge", "Most Sweaty"));
-      var xp = el("div", "xp" + (m.l >= CAP ? " done" : "")), bar = el("i"); bar.style.width = (m.l / CAP * 100) + "%"; xp.append(bar);
-      xp.setAttribute("role", "img"); xp.setAttribute("aria-label", "Level " + m.l + " of " + CAP);
-      who.append(nm, el("div", "what", shortRace(m.r) + " " + m.c + " · " + m.k), xp);
-      var gain = el("div", "gain" + (m.gain > 0 ? " up" : ""), m.gain == null ? (base ? "new" : "") : (m.gain > 0 ? "+" + m.gain : "–"));
-      r.append(el("div", "pos", m.pos), sprImg(m), who, el("div", "lvl", m.l), gain);
+      var xp = el("div", "xp" + (gear ? " gear" : (m.l >= CAP ? " done" : ""))), bar = el("i");
+      bar.style.width = (gear ? m.g / maxG * 100 : m.l / CAP * 100) + "%"; xp.append(bar);
+      xp.setAttribute("role", "img"); xp.setAttribute("aria-label", gear ? "Gear score " + m.g : "Level " + m.l + " of " + CAP);
+      who.append(nm, el("div", "what", shortRace(m.r) + " " + m.c + " · " + m.k + (!gear && m.eta ? " · 60 by ~" + fmtShort(m.eta) : "")), xp);
+      var last = gear ? el("div", "gain", "Lv " + m.l)
+        : el("div", "gain" + (m.gain > 0 ? " up" : ""), m.gain == null ? (base ? "new" : "") : (m.gain > 0 ? "+" + m.gain : "–"));
+      r.append(el("div", "pos", rank[m.n]), sprImg(m), who, el("div", "lvl", gear ? m.g : m.l), last);
       board.append(r);
     });
   }
-  render();
+  find.addEventListener("input", renderBoard);
+  mLevel.addEventListener("click", function () { mode = "level"; renderBoard(); });
+  mGear.addEventListener("click", function () { mode = "gear"; renderBoard(); });
+  bankBtn.hidden = !bankCount;
+  bankBtn.addEventListener("click", function () {
+    showBank = !showBank;
+    try { localStorage.setItem("showBank", showBank ? "1" : "0"); } catch (e) {}
+    renderAll();
+  });
 
-  var foot = document.getElementById("foot");
-  foot.append("Levels come from the public guild roster on armorywowforever.com and refresh once a day. The pixel characters are original drawings generated from each member's race and class. Not affiliated with Blizzard Entertainment.");
+  function renderAll() {
+    members = ALL.filter(function (m) { return showBank || !m.bank; }).sort(function (a, b) { return b.l - a.l || b.g - a.g || a.n.localeCompare(b.n); });
+    members.forEach(function (m, i) { m.pos = i + 1; });
+    bankBtn.textContent = showBank ? "Bank alts: shown" : "Bank alts: hidden";
+    bankBtn.setAttribute("aria-pressed", String(showBank));
+    renderStats(); renderAwards(); renderPodium(); renderRoad(); renderFeed(); renderChips(); renderBoard();
+  }
+  renderAll();
+
+  document.getElementById("foot").append("Levels come from the public guild roster on armorywowforever.com and refresh twice a day. The pixel characters are original drawings generated from each member's race and class. Not affiliated with Blizzard Entertainment.");
 })();
 </script>
 </body>
