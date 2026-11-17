@@ -26,7 +26,7 @@ def parse_guild(src):
 
 def main():
     page_path, guild_path = sys.argv[1], sys.argv[2]
-    today = sys.argv[3] if len(sys.argv) > 3 else datetime.datetime.utcnow().strftime('%Y-%m-%d')
+    today = sys.argv[3] if len(sys.argv) > 3 else datetime.datetime.now(datetime.timezone.utc).strftime('%Y-%m-%d')
     members = parse_guild(open(guild_path, encoding='utf-8').read())
     if len(members) < 5:
         sys.exit('refusing to update: only %d members parsed from the guild page' % len(members))

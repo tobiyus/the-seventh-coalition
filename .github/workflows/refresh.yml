@@ -2,9 +2,9 @@ name: Refresh leaderboard
 
 on:
   schedule:
-    # GitHub often starts scheduled runs hours late, so both are set early.
-    - cron: "7 1 * * *"    # morning run, 01:07 UTC
-    - cron: "7 17 * * *"   # evening run, 17:07 UTC
+    # Hourly. GitHub can start scheduled runs hours late, so asking every
+    # hour keeps the page close to the armory even when some runs are delayed.
+    - cron: "17 * * * *"
   workflow_dispatch:        # lets you press "Run workflow" by hand
 
 permissions:
